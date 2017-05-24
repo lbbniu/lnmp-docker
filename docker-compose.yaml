@@ -1,0 +1,64 @@
+version: "2"
+services:
+    vming:
+        container_name: nginx_min
+        image: lbbniu/nginx
+        ports:
+            - "80:80"
+            - "444:443"
+        volumes:
+            - /data:/data
+        working_dir: /data/www/lbbniu
+        links:
+            - php7:php7
+    php7:
+        container_name: php7_min
+        image: lbbniu/php7:new
+        expose:
+            - "9000"
+        volumes:
+            - /data:/data
+        working_dir: /data/www/lbbniu
+        links:
+            - memcached:memcached
+            - beanstalkd:beanstalkd
+            - mysql:mysql
+
+    push_queue:
+        container_name: push_queue
+        image: lbbniu/php7:new
+        volumes:
+            - /data:/data
+        working_dir: /data/www/lbbniu
+        links:
+            - memcached:memcached
+            - beanstalkd:beanstalkd
+            - mysql:mysql
+        entrypoint: ["php"]
+        command: ["artisan","queue:work"]
+
+    memcached:
+        container_name: memcached_min
+        image: lbbniu/memcached
+        expose:
+            - "11211"
+        command: ["-m","1024"]
+
+    beanstalkd:
+        container_name: beanstalkd_min
+        image: lbbniu/beanstalkd
+        expose:
+            - "11300"
+
+    mysql:
+        container_name: mysql
+        image: mysql:5.6
+        ports:
+            - "3307:3306"
+        expose:
+            - "3306"
+        volumes:
+            - /data/mysql/data:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD=123456"
+            - "MYSQL_DATABASE=lbbniu"
