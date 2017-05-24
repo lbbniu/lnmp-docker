@@ -50,15 +50,15 @@ mkdir -p /data/www
 ### 11.拉去代码
 ```
 cd /data/www
-git clone https://git.coding.net/bjvmingnet/app303.git
+git clone https://github.com/lbbniu/lbbniu.git
 ```
 ### 12.部署
 ```
-cd /data/www/app303
+cd /data/www/lbbniu
 创建静态资料存放路径
 mkdir -p public/image
 chown -R www:www storage bootstrap public/image  public/img 
-cd /data/www/app303/deploy
+cd /data/www/lbbniu/deploy
 ./deploy.sh
 docker exec -ti php7_min sh
 composer install --no-dev
@@ -70,5 +70,5 @@ php artisan migrate:refresh
 导入初始化数据
 php artisan db:seed
 添加定时任务
-* * * * *  docker exec php7_min  php /data/www/app303/artisan schedule:run >> /dev/null 2>&1
+* * * * *  docker exec php7_min  php /data/www/lbbniu/artisan schedule:run >> /dev/null 2>&1
 ```
