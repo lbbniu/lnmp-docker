@@ -5,7 +5,7 @@ services:
         image: lbbniu/nginx
         ports:
             - "80:80"
-            - "444:443"
+            - "443:443"
         volumes:
             - /data:/data
         working_dir: /data/www/lbbniu
