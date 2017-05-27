@@ -3,6 +3,7 @@ services:
     vming:
         container_name: nginx_min
         image: lbbniu/nginx
+        restart: always
         ports:
             - "80:80"
             - "443:443"
@@ -14,6 +15,7 @@ services:
     php7:
         container_name: php7_min
         image: lbbniu/php7:new
+        restart: always
         expose:
             - "9000"
         volumes:
@@ -27,6 +29,7 @@ services:
     push_queue:
         container_name: push_queue
         image: lbbniu/php7:new
+        restart: always
         volumes:
             - /data:/data
         working_dir: /data/www/lbbniu
@@ -40,6 +43,7 @@ services:
     memcached:
         container_name: memcached_min
         image: lbbniu/memcached
+        restart: always
         expose:
             - "11211"
         command: ["-m","1024"]
@@ -47,12 +51,14 @@ services:
     beanstalkd:
         container_name: beanstalkd_min
         image: lbbniu/beanstalkd
+        restart: always
         expose:
             - "11300"
 
     mysql:
         container_name: mysql
         image: mysql:5.6
+        restart: always
         ports:
             - "3307:3306"
         expose:
